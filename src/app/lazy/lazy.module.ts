@@ -6,10 +6,12 @@ import { TwoComponent } from './two/two.component';
 import { EntryComponent } from './entry/entry.component';
 
 @NgModule({
-  declarations: [OneComponent, TwoComponent],
+  declarations: [OneComponent, TwoComponent, EntryComponent],
   entryComponents: [EntryComponent],
   imports: [
     CommonModule
   ]
 })
-export class LazyModule { }
+export class LazyModule {
+  static rootEntry = EntryComponent;
+}
