@@ -5,15 +5,19 @@ import {
   ViewContainerRef,
   Injector,
   Compiler,
+  OnDestroy,
+  NgModuleRef,
 } from '@angular/core';
+import { LazyModule } from './lazy/lazy.module';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements AfterViewInit, OnDestroy {
   title = 'lazy-module-no-route';
+  moduleRef: NgModuleRef<LazyModule>;
 
   @ViewChild('testOutlet', { read: ViewContainerRef, static: false })
   testOutlet: ViewContainerRef;
@@ -24,13 +28,19 @@ export class AppComponent implements AfterViewInit {
       .then(m => m.LazyModule)
       .then(lazyModule => {
         this.compiler.compileModuleAsync(lazyModule).then(ngModuleFactory => {
-          const moduleRef = ngModuleFactory.create(this.injector);
-          const compFactory = moduleRef.componentFactoryResolver.resolveComponentFactory(
+          this.moduleRef = ngModuleFactory.create(this.injector);
+          const compFactory = this.moduleRef.componentFactoryResolver.resolveComponentFactory(
             lazyModule.rootEntry
           );
           this.testOutlet.createComponent(compFactory);
         });
       });
+  }
+
+  ngOnDestroy(): void {
+    if (this.moduleRef) {
+      this.moduleRef.destroy();
+    }
   }
 }
 
