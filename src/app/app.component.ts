@@ -19,8 +19,8 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   title = 'lazy-module-no-route';
   moduleRef: NgModuleRef<LazyModule>;
 
-  @ViewChild('testOutlet', { read: ViewContainerRef, static: false })
-  testOutlet: ViewContainerRef;
+  @ViewChild('here', { read: ViewContainerRef, static: true })
+  here: ViewContainerRef;
   constructor(private compiler: Compiler, private injector: Injector) {}
 
   ngAfterViewInit(): void {
@@ -32,7 +32,7 @@ export class AppComponent implements AfterViewInit, OnDestroy {
           const compFactory = this.moduleRef.componentFactoryResolver.resolveComponentFactory(
             lazyModule.rootEntry
           );
-          this.testOutlet.createComponent(compFactory);
+          this.here.createComponent(compFactory);
         });
       });
   }
@@ -43,6 +43,3 @@ export class AppComponent implements AfterViewInit, OnDestroy {
     }
   }
 }
-
-// https://medium.com/@matt.denobrega/for-those-of-you-who-implemented-this-and-are-getting-warnings-about-ngmodulefactoryloader-being-ae20ce1bca20
-// https://netbasal.com/the-need-for-speed-lazy-load-non-routable-modules-in-angular-30c8f1c33093

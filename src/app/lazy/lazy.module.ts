@@ -8,9 +8,7 @@ import { EntryComponent } from './entry/entry.component';
 @NgModule({
   declarations: [OneComponent, TwoComponent, EntryComponent],
   entryComponents: [EntryComponent],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
 })
 export class LazyModule {
   static rootEntry = EntryComponent;
