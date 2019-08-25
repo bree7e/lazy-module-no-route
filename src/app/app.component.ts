@@ -12,15 +12,15 @@ import { LazyModule } from './lazy/lazy.module';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  template: `<h1>Welcome!</h1><div #here></div>`,
 })
 export class AppComponent implements AfterViewInit, OnDestroy {
-  title = 'lazy-module-no-route';
+  /** Экземпляр Модуля созданного через фабрику */
   moduleRef: NgModuleRef<LazyModule>;
-
+  /** Контейнер для размещения динамического компонента */
   @ViewChild('here', { read: ViewContainerRef, static: true })
   here: ViewContainerRef;
+
   constructor(private compiler: Compiler, private injector: Injector) {}
 
   ngAfterViewInit(): void {
