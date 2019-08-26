@@ -19,7 +19,7 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": false,
-            "lazyModules": ["src/app/lazy/lazy.module"],
+            "lazyModules": ["./src/app/lazy/lazy.module"],
             "assets": [
               "src/favicon.ico",
               "src/assets"

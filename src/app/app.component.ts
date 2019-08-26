@@ -1,18 +1,22 @@
 import {
-  Component,
   AfterViewInit,
+  Compiler,
+  Component,
+  Inject,
+  Injector,
+  NgModuleRef,
+  OnDestroy,
   ViewChild,
   ViewContainerRef,
-  Injector,
-  Compiler,
-  OnDestroy,
-  NgModuleRef,
 } from '@angular/core';
 import { LazyModule } from './lazy/lazy.module';
 
 @Component({
   selector: 'app-root',
-  template: `<h1>Welcome!</h1><div #here></div>`,
+  template: `
+    <h1>Welcome!</h1>
+    <div #here></div>
+  `,
 })
 export class AppComponent implements AfterViewInit, OnDestroy {
   /** Экземпляр Модуля созданного через фабрику */
@@ -21,10 +25,13 @@ export class AppComponent implements AfterViewInit, OnDestroy {
   @ViewChild('here', { read: ViewContainerRef, static: true })
   here: ViewContainerRef;
 
-  constructor(private compiler: Compiler, private injector: Injector) {}
+  constructor(
+    @Inject(Compiler) private compiler: Compiler,
+    @Inject(Injector) private injector: Injector
+  ) {}
 
   ngAfterViewInit(): void {
-    import('src/app/lazy/lazy.module')
+    import('./lazy/lazy.module')
       .then(m => m.LazyModule)
       .then(lazyModule => {
         this.compiler.compileModuleAsync(lazyModule).then(ngModuleFactory => {
